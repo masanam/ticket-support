@@ -60,7 +60,8 @@ func TicketRequestValidate(ur *TicketRequest) error {
 	err := validation.Errors{
 		"ticket_title": validation.Validate(&ur.TicketTitle, validation.Required, validation.Length(10, 100).Error("ticket_title should be minimum 10 characters and maximum 100 characters")),
 		"ticket_msg":   validation.Validate(&ur.TicketMessage, validation.Required, validation.Length(100, 0).Error("ticket_msg should be minimum 100 characters")),
-		"user_id":      validation.Validate(&ur.UserID, validation.Required, is.Int.Error("user_id should be an integer / numeric")),
+		// "user_id":      validation.Validate(&ur.UserID, validation.Required, validation.Match(regexp.MustCompile(`^[0-9]+$`)).Error("user_id should be an integer / numeric")),
+		"user_id": validation.Validate(&ur.UserID, validation.Required, is.Int.Error("user_id should be an integer / numeric")),
 	}
 
 	return err.Filter()

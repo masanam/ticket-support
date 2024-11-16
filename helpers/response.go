@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"net/http"
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -236,12 +237,25 @@ func (a *API) SuccessJSON(w http.ResponseWriter, data interface{}, code int, mes
 	SuccessResponseJSON(w, a.statusCode, response)
 }
 
+func isZero(v interface{}) bool {
+	if v == nil {
+		return true
+	}
+	return reflect.ValueOf(v).IsZero()
+}
+
 // SuccessWithMeta returns response format for success state but with metadata.
 func (a *API) SuccessWithMeta(w http.ResponseWriter, data interface{}, filter interface{}, sort interface{}, page_size interface{}, code int, message string) {
 	res := a.Success(data, code, message)
-	res.Filter = filter
-	res.Sort = sort
-	res.PageSize = page_size
+	// log.Println(filter)
+	if isZero(filter) {
+		res.Sort = sort
+		res.PageSize = page_size
+	} else {
+		res.Filter = filter
+		res.Sort = sort
+		res.PageSize = page_size
+	}
 
 	SuccessResponseJSON(w, res.statusCode, res)
 }
