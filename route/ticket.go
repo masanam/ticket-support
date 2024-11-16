@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -117,10 +118,13 @@ func (uh *TicketHandler) GetTickets(w http.ResponseWriter, r *http.Request) {
 	sortBy := paginationParam.SortBy
 	orderBy := paginationParam.OrderBy
 	perPage := paginationParam.PerPage
-	pagesize := paginationParam.PerPage
+	pagesize := int32(paginationParam.PerPage)
 	page, _ := strconv.Atoi(paginationParam.Page)
 
 	tickets, total, err := uh.service.GetListTickets(ctx, sortBy, orderBy, int(perPage), page, filterName, filterType, filterValue)
+	perPage = perPage - (perPage % 10)
+	log.Println(perPage)
+
 	if err != nil {
 		caticket := errors.Cause(err)
 		switch caticket {
@@ -143,14 +147,11 @@ func (uh *TicketHandler) GetTickets(w http.ResponseWriter, r *http.Request) {
 		CurrentPage: int32(page),
 	})
 
-	// pagesize := helpers.GetPageSize(helpers.PageSizeParams{
-	// 	PerPage: int32(perPage),
-	// })
-
 	if err != nil {
 		responder.ErrorJSON(w, http.StatusConflict, "error pagination")
 		return
 	}
+	pagesize = pagesize - (pagesize % 10)
 
 	responder.SuccessWithMeta(w, tickets, filter, pagination, pagesize, http.StatusOK, "tickets list")
 	return

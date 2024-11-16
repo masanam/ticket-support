@@ -248,6 +248,10 @@ func isZero(v interface{}) bool {
 func (a *API) SuccessWithMeta(w http.ResponseWriter, data interface{}, filter interface{}, sort interface{}, page_size interface{}, code int, message string) {
 	res := a.Success(data, code, message)
 	// log.Println(filter)
+
+	// page_size = page_size - (page_size % 10)
+	// log.Println(perPage)
+
 	if isZero(filter) {
 		res.Sort = sort
 		res.PageSize = page_size
