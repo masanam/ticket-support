@@ -206,7 +206,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "127.0.0.1:8000/ticket?filter_name=created_at&filter_type=<&filter_value=2024-11-16 12:03:26",
+					"raw": "127.0.0.1:8000/ticket?page=1&per_page=5",
 					"host": [
 						"127",
 						"0",
@@ -219,16 +219,12 @@
 					],
 					"query": [
 						{
-							"key": "filter_name",
-							"value": "created_at"
+							"key": "page",
+							"value": "1"
 						},
 						{
-							"key": "filter_type",
-							"value": "<"
-						},
-						{
-							"key": "filter_value",
-							"value": "2024-11-16 12:03:26"
+							"key": "per_page",
+							"value": "5"
 						}
 					]
 				}
@@ -367,6 +363,40 @@
 								{
 									"key": "filter_value",
 									"value": "2024-11-16 12:03:26"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				},
+				{
+					"name": "GET ALL TICKETS - page_size",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8000/ticket?page=1&per_page=5",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"ticket"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "5"
 								}
 							]
 						}
